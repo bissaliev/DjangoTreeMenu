@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.header {
+    height: 70px;
+    background-color: rgb(0, 255, 242);
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.footer {
+    height: 70px;
+    background-color: rgb(0, 255, 242);
+}
+
+.main {
+    display: flex;
+    flex-grow: 1;
+}
+
+.main-menu {
+    padding: 10px;
+    flex-grow: .5;
+    margin: 10px;
+    min-width: 400px;
+    border-right: 5px solid rgb(0, 255, 242);
+}
+
+
+.main-menu,
+.main-menu ul {
+    list-style-type: none;
+    padding-left: 20px;
+    /* Отступ для вложенных элементов */
+    position: relative;
+}
+
+.main-menu li {
+    list-style: none;
+    position: relative;
+    padding-left: 20px;
+}
+
+.main-menu li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #000;
+    /* Цвет линии */
+}
+
+.main-menu li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 15px;
+    width: 20px;
+    height: 1px;
+    background: #000;
+    /* Цвет горизонтальной линии */
+}
+
+.main-menu>li::before {
+    top: 10px;
+    /* Откорректировано для первого уровня элементов */
+}
+
+.main-menu ul li:last-child::before {
+    bottom: 10px;
+}
+
+.main-menu a {
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 1em;
+    color: black;
+    display: block;
+    padding: 5px 15px;
+    text-decoration: none;
+}
+
+.main-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 6;
+}
+
+.selected {
+    background-color: rgb(0, 255, 242);
+    padding: 5px;
+}
