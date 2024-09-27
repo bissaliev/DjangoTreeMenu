@@ -8,6 +8,7 @@ register = template.Library()
 
 @register.simple_tag
 def draw_menu(current_menu: str):
+    """Рендеринг меню."""
     menu = get_object_or_404(
         Menu.objects.select_related("parent"),
         slug=current_menu,
@@ -16,31 +17,31 @@ def draw_menu(current_menu: str):
 
 
 def render_menu(menu: Menu) -> str:
-    selected_id = {menu.id: "selected"}
-    insertion_menu = {}
+    """Рендеринг меню с учётом выделенного элемента и вложенных пунктов."""
+    selected_class = {menu.id: "selected"}
+    nested_menu = {}
     while menu:
         children = menu.children.all()
-        items = building_list(children, insertion_menu)  # li's
-        insertion_item = formatting_html(menu, items, selected_id)  # li_insert
-        insertion_menu = {menu.id: insertion_item}
+        submenu = build_submenu(children, nested_menu, selected_class)
+        nested_menu = {menu.id: submenu}
+        list_item = build_menu_item(menu, nested_menu, selected_class)
         menu = menu.parent
-    return format_html("<ul>{}</ul>", insertion_item)
+    return format_html("<ul>{}</ul>", list_item)
 
 
-def building_list(queryset, insertion_menu: dict):
-    items = []
-    pattern = '<li><a href="{}">{}</a></li>'
-    for item in queryset:
-        url = item.get_absolute_url()
-        text = insertion_menu.get(
-            item.id, format_html(pattern, url, item.name)
-        )
-        items.append(text)
-    return "".join(items)
+def build_submenu(children, nested_menu, selected_class):
+    """Создание подменю для пунктов меню."""
+    menu_items = []
+    for child in children:
+        list_item = build_menu_item(child, nested_menu, selected_class)
+        menu_items.append(list_item)
+    return format_html("<ul>{}</ul>", format_html("".join(menu_items)))
 
 
-def formatting_html(menu, text: str, selected_id: dict) -> str:
-    pattern = "<li><a class='{}' href='{}'>{}</a><ul>{}</ul></li>"
-    class_css = selected_id.get(menu.id, "unselected")
+def build_menu_item(menu: Menu, nested_menu: dict, selected_class: dict):
+    """Создание элемента списка меню с учётом вложенности и выделения."""
+    template = "<li><a class='{}' href='{}'>{}</a>{}</li>"
     url = menu.get_absolute_url()
-    return format_html(pattern, class_css, url, menu.name, format_html(text))
+    css_class = selected_class.get(menu.id, "unselected")
+    nested_content = nested_menu.get(menu.id, "")
+    return format_html(template, css_class, url, menu.name, nested_content)
