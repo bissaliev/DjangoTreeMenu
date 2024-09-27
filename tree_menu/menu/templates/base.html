@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+
+<body>
+    <header class="header">
+        <h1><a href="{% url 'menu:index' %}">Главная</a></h1>
+    </header>
+
+    <main class="main">
+        <section class="main-menu">
+            {% block menu %}
+            {% endblock menu %}
+        </section>
+
+        <section class="main-block">
+            <span style="font-size: 150px;">{% block content %}{% endblock content %}</span>
+        </section>
+    </main>
+
+    <footer class="footer"></footer>
+</body>
+
+</html>

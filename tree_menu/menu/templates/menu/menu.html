@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load menu_tree %}
+
+{% block title %}{{ current_menu.name }}{% endblock title %}
+
+{% block menu %}{% draw_menu current_menu.slug %}{% endblock menu %}
+
+{% block content %}
+{{ current_menu.name }}
+{% endblock content %}

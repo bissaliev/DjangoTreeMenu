@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load menu_tree %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная страница</title>
-</head>
+{% block title %}{{ title }}{% endblock title %}
 
-<body>
-    <h1>Главная страница</h1>
-</body>
+{% block menu %}
 
-</html>
+{% for menu in menu_items %}
+{%draw_menu menu.slug %}
+{% endfor %}
+
+{% endblock menu %}
+
+{% block content %}{{ title }}{% endblock content %}
