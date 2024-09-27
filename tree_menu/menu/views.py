@@ -1,8 +1,10 @@
 from django.shortcuts import get_object_or_404, render
-from menu.models import Menu
+
+from .models import Menu
 
 
 def index(request):
+    """Главная страница."""
     menu_items = Menu.objects.filter(parent=None)
     title = "Главная страница"
     return render(
@@ -11,5 +13,6 @@ def index(request):
 
 
 def menu(request, menu_slug):
+    """Страница меню."""
     current_menu = get_object_or_404(Menu, slug=menu_slug)
     return render(request, "menu/menu.html", {"current_menu": current_menu})
